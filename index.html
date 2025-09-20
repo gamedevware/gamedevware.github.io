@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameDevWare - Charon Utility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #fdbb2d;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4ca1af;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2 i {
+            margin-right: 10px;
+            color: #4ca1af;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .link-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #4ca1af;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .link-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .link-card h3 i {
+            margin-right: 10px;
+            color: #4ca1af;
+        }
+        
+        .link-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .link-card a {
+            display: inline-block;
+            background: #4ca1af;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        .link-card a:hover {
+            background: #2c3e50;
+        }
+        
+        .support {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        
+        .support h2 {
+            margin-bottom: 20px;
+        }
+        
+        .support-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .support-link {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        
+        .support-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .support-link i {
+            margin-right: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .support-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h1>GameDevWare Charon Utility</h1>
+            <p>Powerful asset management and pipeline tools for game developers</p>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2><i class="fas fa-code-branch"></i> Core Resources</h2>
+                <div class="links-grid">
+                    <div class="link-card">
+                        <h3><i class="fab fa-github"></i> Main Repository</h3>
+                        <p>The core Charon utility library and tools for game asset management</p>
+                        <a href="https://github.com/gamedevware/charon" target="_blank">Visit Repository</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h3><i class="fas fa-book"></i> Documentation</h3>
+                        <p>Complete documentation for Charon including setup guides and API references</p>
+                        <a href="https://gamedevware.github.io/charon/" target="_blank">View Documentation</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h3><i class="fas fa-globe"></i> Landing Page</h3>
+                        <p>Official product page with features overview and getting started information</p>
+                        <a href="https://www.gamedevware.com/" target="_blank">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-puzzle-piece"></i> Engine Plugins</h2>
+                <div class="links-grid">
+                    <div class="link-card">
+                        <h3><i class="fab fa-unity"></i> Unity Plugin</h3>
+                        <p>Seamless integration of Charon with Unity game engine projects</p>
+                        <a href="https://github.com/gamedevware/charon-unity3d" target="_blank">Get Plugin</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h3><i class="fas fa-gamepad"></i> Unreal Engine Plugin</h3>
+                        <p>Charon integration for Unreal Engine 4 and 5 projects</p>
+                        <a href="https://github.com/gamedevware/charon-unreal-engine" target="_blank">Get Plugin</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-cubes"></i> Extensions</h2>
+                <div class="links-grid">
+                    <div class="link-card">
+                        <h3><i class="fas fa-window-maximize"></i> UI Extensions</h3>
+                        <p>Additional user interface components and tools for Charon</p>
+                        <a href="https://github.com/gamedevware/charon-extensions" target="_blank">Explore Extensions</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="support">
+                    <h2><i class="fas fa-life-ring"></i> Support & Community</h2>
+                    <div class="support-links">
+                        <a href="https://discord.gg/2quB5vXryd" target="_blank" class="support-link">
+                            <i class="fab fa-discord"></i> Discord Channel
+                        </a>
+                        <a href="mailto:support@gamedevware.com" class="support-link">
+                            <i class="fas fa-envelope"></i> support@gamedevware.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 GameDevWare | Charon Utility Tools</p>
+        </footer>
+    </div>
+</body>
+</html>
