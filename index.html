@@ -3,275 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameDevWare - Charon Utility</title>
+    <title>Charon — Game Data Editor</title>
+    <meta name="description" content="Charon is a data-driven game design tool that replaces spreadsheets with validated, schema-driven data and generates type-safe code for Unity and Unreal Engine.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --accent: #4f7cff;
+            --accent-dark: #2f5be0;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --surface: #ffffff;
+            --bg: #f9fafb;
+            --radius: 10px;
+        }
+
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #333;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
-        
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-        
+
+        /* ── Header ── */
         header {
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #fdbb2d;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .section {
-            margin-bottom: 30px;
-        }
-        
-        .section h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #4ca1af;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 32px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
-        
-        .section h2 i {
-            margin-right: 10px;
-            color: #4ca1af;
-        }
-        
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .link-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-left: 4px solid #4ca1af;
-        }
-        
-        .link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-        
-        .link-card h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+
+        .brand {
             display: flex;
             align-items: center;
-        }
-        
-        .link-card h3 i {
-            margin-right: 10px;
-            color: #4ca1af;
-        }
-        
-        .link-card p {
-            color: #666;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-        
-        .link-card a {
-            display: inline-block;
-            background: #4ca1af;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
+            gap: 12px;
             text-decoration: none;
-            font-weight: 500;
-            transition: background 0.3s;
+            color: var(--text-primary);
         }
-        
-        .link-card a:hover {
-            background: #2c3e50;
-        }
-        
-        .support {
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px;
-        }
-        
-        .support h2 {
-            margin-bottom: 20px;
-            color: white;
-        }
-        
-        .support-links {
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            border-radius: 8px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 20px;
+            color: #fff;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-by {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        header nav {
+            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
         }
-        
-        .support-link {
+
+        header nav a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        header nav a:hover {
+            background: var(--bg);
+            color: var(--text-primary);
+        }
+
+        /* ── Hero ── */
+        .hero {
+            max-width: 720px;
+            margin: 64px auto 56px;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.15s, transform 0.15s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            transition: border-color 0.15s, transform 0.15s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        /* ── Destination cards ── */
+        .main-content {
+            max-width: 1040px;
+            margin: 0 auto 64px;
+            padding: 0 24px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .dest-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+            position: relative;
+        }
+
+        .dest-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(79, 124, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dest-card.featured {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
+        }
+
+        .dest-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px 20px;
-            border-radius: 50px;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .dest-icon.blue   { background: #eff6ff; color: var(--accent); }
+        .dest-icon.green  { background: #f0fdf4; color: #16a34a; }
+        .dest-icon.purple { background: #faf5ff; color: #7c3aed; }
+        .dest-icon.orange { background: #fff7ed; color: #ea580c; }
+        .dest-icon.dark   { background: #f1f5f9; color: #374151; }
+
+        .dest-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .dest-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+        }
+
+        .dest-arrow {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .dest-card:hover .dest-arrow {
+            color: var(--accent);
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: var(--accent);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 20px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        /* ── Secondary grid ── */
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .sec-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
             text-decoration: none;
-            color: white;
-            transition: background 0.3s;
+            color: inherit;
+            transition: border-color 0.15s, transform 0.15s;
         }
-        
-        .support-link:hover {
-            background: rgba(255, 255, 255, 0.3);
+
+        .sec-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
         }
-        
-        .support-link i {
-            margin-right: 8px;
-        }
-        
-        footer {
+
+        .sec-card i {
+            font-size: 20px;
+            color: var(--text-secondary);
+            width: 24px;
             text-align: center;
-            padding: 20px;
-            background: #2c3e50;
-            color: white;
+            flex-shrink: 0;
         }
-        
-        @media (max-width: 768px) {
-            .links-grid {
-                grid-template-columns: 1fr;
+
+        .sec-card:hover i {
+            color: var(--accent);
+        }
+
+        .sec-card-text strong {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .sec-card-text span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── Support banner ── */
+        .support-banner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .support-banner h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .support-banner p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .support-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .support-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-primary);
+            background: var(--bg);
+            transition: border-color 0.15s, color 0.15s;
+        }
+
+        .support-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px 20px;
             }
-            
-            header h1 {
-                font-size: 2rem;
+
+            .hero {
+                margin: 40px auto 40px;
             }
-            
-            .support-links {
+
+            .hero-ctas {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .support-banner {
+                flex-direction: column;
+                padding: 24px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-dragon"></i>
+
+    <header>
+        <a class="brand" href="https://www.gamedevware.com/" target="_blank" rel="noopener">
+            <div class="brand-icon">
+                <i class="fas fa-database"></i>
             </div>
-            <h1>GameDevWare Charon</h1>
-            <p>Charon is a powerful game development tool that streamlines workflows through structured data design and automated code generation, reducing programmer workload and eliminating errors.</p>
-        </header>
-        
-        <div class="content">
-            <div class="section">
-                <h2><i class="fas fa-code-branch"></i> Core Resources</h2>
-                <div class="links-grid">
-                    <div class="link-card">
-                        <h3><i class="fab fa-github"></i> Main Repository</h3>
-                        <p>The Charon documentation source and bootstrap scripts.</p>
-                        <a href="https://github.com/gamedevware/charon" target="_blank">Visit Repository</a>
+            <div>
+                <div class="brand-name">Charon</div>
+                <div class="brand-by">by GameDevWare</div>
+            </div>
+        </a>
+        <nav>
+            <a href="https://gamedevware.github.io/charon/" target="_blank" rel="noopener"><i class="fas fa-book fa-sm"></i> Docs</a>
+            <a href="https://charon.live/" target="_blank" rel="noopener"><i class="fas fa-sign-in-alt fa-sm"></i> Sign In</a>
+            <a href="https://github.com/gamedevware/charon" target="_blank" rel="noopener"><i class="fab fa-github fa-sm"></i> GitHub</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Game data editor for<br><span>designers &amp; programmers</span></h1>
+            <p>Charon replaces error-prone spreadsheets with schema-validated game data and generates type-safe code for Unity, Unreal Engine, and more.</p>
+            <div class="hero-ctas">
+                <a class="btn-primary" href="https://gamedevware.github.io/charon/" target="_blank" rel="noopener">
+                    <i class="fas fa-book-open"></i> Read the Docs
+                </a>
+                <a class="btn-secondary" href="https://www.gamedevware.com/" target="_blank" rel="noopener">
+                    <i class="fas fa-globe"></i> Product Website
+                </a>
+            </div>
+        </section>
+
+        <div class="main-content">
+
+            <p class="section-label">Where do you want to go?</p>
+
+            <div class="destinations">
+                <a class="dest-card featured" href="https://gamedevware.github.io/charon/" target="_blank" rel="noopener">
+                    <div class="dest-icon blue"><i class="fas fa-book-open"></i></div>
+                    <h3>Documentation</h3>
+                    <p>Setup guides, API reference, CLI usage, and tutorials for Unity, Unreal Engine, and standalone workflows.</p>
+                    <div class="dest-arrow"><i class="fas fa-arrow-right"></i> gamedevware.github.io/charon</div>
+                </a>
+
+                <a class="dest-card" href="https://charon.live/" target="_blank" rel="noopener">
+                    <div class="dest-icon purple"><i class="fas fa-cloud"></i></div>
+                    <h3>Online App <span class="badge">Web</span></h3>
+                    <p>Sign in to the cloud edition of Charon for collaborative, browser-based game data editing without local installation.</p>
+                    <div class="dest-arrow"><i class="fas fa-arrow-right"></i> charon.live</div>
+                </a>
+
+                <a class="dest-card" href="https://www.gamedevware.com/" target="_blank" rel="noopener">
+                    <div class="dest-icon green"><i class="fas fa-star"></i></div>
+                    <h3>Product Website</h3>
+                    <p>Overview of features, pricing plans, and how to get started with Charon for your game project.</p>
+                    <div class="dest-arrow"><i class="fas fa-arrow-right"></i> gamedevware.com</div>
+                </a>
+            </div>
+
+            <p class="section-label">Plugins &amp; repositories</p>
+
+            <div class="secondary-grid">
+                <a class="sec-card" href="https://github.com/gamedevware/charon-unity3d" target="_blank" rel="noopener">
+                    <i class="fab fa-unity"></i>
+                    <div class="sec-card-text">
+                        <strong>Unity Plugin</strong>
+                        <span>Charon integration for Unity</span>
                     </div>
-                    
-                    <div class="link-card">
-                        <h3><i class="fas fa-book"></i> Documentation</h3>
-                        <p>Complete documentation for Charon including setup guides and API references</p>
-                        <a href="https://gamedevware.github.io/charon/" target="_blank">View Documentation</a>
+                </a>
+                <a class="sec-card" href="https://github.com/gamedevware/charon-unreal-engine" target="_blank" rel="noopener">
+                    <i class="fas fa-gamepad"></i>
+                    <div class="sec-card-text">
+                        <strong>Unreal Engine Plugin</strong>
+                        <span>Integration for UE5 projects</span>
                     </div>
-                    
-                    <div class="link-card">
-                        <h3><i class="fas fa-globe"></i> Landing Page</h3>
-                        <p>Official product page with features overview and getting started information</p>
-                        <a href="https://www.gamedevware.com/" target="_blank">Visit Website</a>
+                </a>
+                <a class="sec-card" href="https://github.com/gamedevware/charon" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                    <div class="sec-card-text">
+                        <strong>Core Repository</strong>
+                        <span>CLI tools &amp; bootstrap scripts</span>
                     </div>
+                </a>
+                <a class="sec-card" href="https://github.com/gamedevware/charon-extensions" target="_blank" rel="noopener">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <div class="sec-card-text">
+                        <strong>UI Extensions</strong>
+                        <span>Custom interface components</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="support-banner">
+                <div>
+                    <h3>Need help?</h3>
+                    <p>Join the community on Discord or reach out by email.</p>
+                </div>
+                <div class="support-links">
+                    <a class="support-link" href="https://discord.gg/2quB5vXryd" target="_blank" rel="noopener">
+                        <i class="fab fa-discord"></i> Discord
+                    </a>
+                    <a class="support-link" href="mailto:support@gamedevware.com">
+                        <i class="fas fa-envelope"></i> support@gamedevware.com
+                    </a>
                 </div>
             </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-puzzle-piece"></i> Engine Plugins</h2>
-                <div class="links-grid">
-                    <div class="link-card">
-                        <h3><i class="fab fa-unity"></i> Unity Plugin</h3>
-                        <p>Charon integration for Unity projects</p>
-                        <a href="https://github.com/gamedevware/charon-unity3d" target="_blank">Get Plugin</a>
-                    </div>
-                    
-                    <div class="link-card">
-                        <h3><i class="fas fa-gamepad"></i> Unreal Engine Plugin</h3>
-                        <p>Charon integration for Unreal Engine 5 projects</p>
-                        <a href="https://github.com/gamedevware/charon-unreal-engine" target="_blank">Get Plugin</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-cubes"></i> Extensions</h2>
-                <div class="links-grid">
-                    <div class="link-card">
-                        <h3><i class="fas fa-window-maximize"></i> UI Extensions</h3>
-                        <p>Custom user interface components for Charon</p>
-                        <a href="https://github.com/gamedevware/charon-extensions" target="_blank">Explore Extensions</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <div class="support">
-                    <h2><i class="fas fa-life-ring"></i> Support & Community</h2>
-                    <div class="support-links">
-                        <a href="https://discord.gg/2quB5vXryd" target="_blank" class="support-link">
-                            <i class="fab fa-discord"></i> Discord Channel
-                        </a>
-                        <a href="mailto:support@gamedevware.com" class="support-link">
-                            <i class="fas fa-envelope"></i> support@gamedevware.com
-                        </a>
-                    </div>
-                </div>
-            </div>
+
         </div>
-        
-        <footer>
-            <p>&copy; 2023 GameDevWare | Charon Utility Tools</p>
-        </footer>
-    </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GameDevWare &mdash; <a href="https://www.gamedevware.com/" target="_blank" rel="noopener">gamedevware.com</a></p>
+    </footer>
+
 </body>
 </html>
